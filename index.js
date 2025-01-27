@@ -4,15 +4,13 @@ $(document).ready(function() {
 
 
     //---------- Creation des cellules de jeu ----------//
-    createBoard();
-    initPartie();
-
-    debugOnlyShowCells();
+    createBoard(10, 10);
+    initPartie(0.15);
 
 
     //---------- Gestion du bouton reset ----------//
     $('#reset').click(function() {
-        initPartie();
+        initPartie(0.15);
     })
 
 
@@ -23,7 +21,13 @@ $(document).ready(function() {
         const cell = $(this);
 
         cell.click(function() {
-            updateBoard(cell);
+
+            if(this.className.match(".mine")) {
+                debugOnlyShowCells();
+            } else {
+                cell.html(this.dataset.nbOfMines);
+                updateBoard(this);
+            }
         });
 
         cell.contextmenu(function(event){
@@ -34,7 +38,7 @@ $(document).ready(function() {
                 cell.html("🚩");
             }
             else {
-                cell.html("");
+                cell.html(" ");
             }
         });
     });

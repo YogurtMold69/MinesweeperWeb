@@ -1,17 +1,20 @@
+import { getAdjacentCells} from "./utils/2DHelper.js";
+
 //---------- Creation d'un plateau de jeu ---------//
 
-export function createBoard() {
+/* Creer une table HTML pour stocker les cellules de jeu.
+ * A la creation, on attribue a chaque cellule une abscisse (X), une ordonnee (Y) et le nombre de mines adjacentes.
+ * @params columnLength : La hauteur de la grille.
+ * @params rowLength : La Largeur de la grille.
+ */
+export function createBoard(rowLength, columnLength) {
     const board = document.querySelector("#board");
 
-    // Le jeu sera de 32x16
-    for (let i = 0; i < 16; i++) {
-
-        // Tout sera stocker dans un table HTML
+    for (let i = 0; i < rowLength; i++) {
         const ligne = document.createElement("tr");
+        for (let j = 0; j < columnLength; j++) {
 
-        for (let j = 0; j < 32; j++) {
-
-            // Creation de la cellule
+            // Attribution de la classe
             const td = document.createElement("td");
             td.className = "cell";
 
@@ -35,56 +38,40 @@ export function createBoard() {
 
 //---------- Initialiser la partie ----------//
 
-export function initPartie() {
-    const cells = document.querySelectorAll(".cell");
-    const board = document.querySelector("#board");
+/* Ajoute les mines au hasard sur le plateau
+de jeu et on met a jour les cellules voisines.
 
-// Enleve les mines precedentes
+@params difficulty : float de 0 a 1. Determine le pourcentage de mines presentes sur le plateau.
+ */
+export function initPartie(difficulty) {
+    const cells = document.querySelectorAll(".cell");
+
+    // Efface les mines precedentes
     for (let cell of cells) {
         cell.classList.remove("mine");
         cell.dataset.nbOfMines = "0";
         cell.style.backgroundColor = "lightgray";
     }
 
-// Place les nouvelles mines
-// Chaque case a 15% de chance d'etre une mine
+    // Pour determiner si une cellule est une mine,
+    // On genere un nombre de 0 a 1 et on le compare a la difficulte predefinie.
     for (let cell of cells) {
-        if (Math.random() <= 0.15) {
+        if (Math.random() <= difficulty) {
             cell.classList.add("mine");
         }
     }
 
-// Met a jour les cases a cote des mines
+    // Met a jour les cellules adjacentes aux mines
     const mines = document.querySelectorAll(".mine");
-    console.log(mines.length);
-    for (let i = 0; i < mines.length; i++) {
-        const mine = mines[i];
+    for (const mine of mines) {
+        const neighbors = getAdjacentCells(mine);
 
-        // On recupere les coordonnees de la mine pour indexer relativement
-        // les cellules voisines (x-1, x+1, y-1, y+1, etc...)
-        // On fait +1 pour prendre compte de l'indexage a partir de 0
-        const x = parseInt(mine.dataset.x) + 1;
-        const y = parseInt(mine.dataset.y) + 1;
-
-        const neighbors = [
-            board.querySelector(`tr:nth-child(${y - 1}) td:nth-child(${x - 1})`),
-            board.querySelector(`tr:nth-child(${y - 1}) td:nth-child(${x})`),
-            board.querySelector(`tr:nth-child(${y - 1}) td:nth-child(${x + 1})`),
-
-            board.querySelector(`tr:nth-child(${y}) td:nth-child(${x - 1})`),
-            board.querySelector(`tr:nth-child(${y}) td:nth-child(${x + 1})`),
-
-            board.querySelector(`tr:nth-child(${y + 1}) td:nth-child(${x - 1})`),
-            board.querySelector(`tr:nth-child(${y + 1}) td:nth-child(${x})`),
-            board.querySelector(`tr:nth-child(${y + 1}) td:nth-child(${x + 1})`)
-        ]
-
-        // On met a jour le nombre de mine pour chaque cases voisines
-        // qui existe et qui n'est pas elle-meme une mine
-        for (let neighbor of neighbors) {
+        // On incremente l'attribut nbOfMines de chaque cellule adjacente
+        // qui n'est pas elle-meme une mine
+        for (const neighbor of neighbors) {
             console.log(neighbor); //Debugging
 
-            if(neighbor != null && !neighbor.classList.contains("mine")) {
+            if(neighbor !== undefined) {
                 let nbOfMines = parseInt(neighbor.dataset.nbOfMines);
                 nbOfMines += 1;
                 neighbor.dataset.nbOfMines = nbOfMines.toString();
@@ -94,8 +81,23 @@ export function initPartie() {
 }
 
 export function updateBoard(cell) {
+    if (cell.dataset.nbOfMines !== "0") {
+        return;
+    }
 
+    cell.html(cell.dataset.nbOfMines.toString());
+    const adjacentCells = getAdjacentCells(cell);
+    for (const adjCell of adjacentCells) {
+        updateBoard(adjCell);
+    }
 }
+
+
+
+
+
+
+//---------- debugging ----------//
 
 export function debugOnlyShowCells() {
     const cells = $('.cell');
