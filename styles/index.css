@@ -1,13 +1,12 @@
 td {
   min-width: 35px;
   min-height: 35px;
-
   background-color: lightgray;
   font-family: monospace;
-
   align-content: center;
   justify-content: center;
   text-align: center;
-
   font-size: 2em;
 }
+
+/*# sourceMappingURL=index.css.map */
