@@ -88,22 +88,32 @@ export function initPartie(difficulty) {
     }
 }
 
+
+/*
+    Cette methode est appelee lorsqu'on clique sur une cellule.
+    Elle s'occupe de reveler la case choisie ainsi que toutes les cellules '0' adjacentes.
+
+    @params: Reference vers la cellule cliquee.
+ */
 export function updateBoard(cell) {
+
+    // On peut seulement mettre a jour les cases encore cachees
     if(cell.dataset.isHidden === "true") {
         cell.dataset.isHidden = "false";
         cell.textContent = cell.dataset.nbOfMines;
 
-        console.log("blejhh")
+        // Condition de base de la recursion
         if (cell.dataset.nbOfMines !== "0") {
-            console.log("heelo!")
             return;
         }
 
         const adjacentCells = getAdjacentCells(cell);
 
         for (const adjCell of adjacentCells) {
-
             if(adjCell !== undefined){
+
+                // La fonction va recurser sur toutes ses cellules adjacentes
+                // tant que son nombre de mines adjacentes est 0.
                 updateBoard(adjCell);
             }
         }
