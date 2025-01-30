@@ -1,4 +1,4 @@
-import { getAdjacentCells} from "./utils/2DHelper.js";
+import {getAdjacentCells} from "./utils/2DHelper.js";
 
 //---------- Creation d'un plateau de jeu ---------//
 
@@ -14,15 +14,14 @@ export function createBoard(rowLength, columnLength) {
         const ligne = document.createElement("tr");
         for (let j = 0; j < columnLength; j++) {
 
+            const td = document.createElement("td");
+
             // Chaque cellule a les attributs suivants :
             // classe "cell" pour iterer avec querySelector()
             // coordonnee x,
             // coordonnee y,
             // nombre de mines adjacentes a la case,
             // un boolean pour savoir si la case est revelee ou cachee
-
-            const td = document.createElement("td");
-
             td.className = "cell";
             td.dataset.y = i.toString();
             td.dataset.x = j.toString();
@@ -93,7 +92,7 @@ export function initPartie(difficulty) {
     Cette methode est appelee lorsqu'on clique sur une cellule.
     Elle s'occupe de reveler la case choisie ainsi que toutes les cellules '0' adjacentes.
 
-    @params: Reference vers la cellule cliquee.
+    @params cell : Reference vers la cellule cliquee.
  */
 export function updateBoard(cell) {
 
@@ -125,19 +124,6 @@ export function updateBoard(cell) {
 
 
 
-//---------- debugging ----------//
-
-export function debugOnlyShowCells() {
-    const cells = $('.cell');
-
-    for (const cell of cells) {
-        if(cell.classList.contains("mine")) {
-            cell.textContent = "💣";
-        } else {
-            cell.textContent = cell.dataset.nbOfMines;
-        }
-    }
-}
 
 
 

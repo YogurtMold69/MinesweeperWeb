@@ -1,12 +1,98 @@
-td {
-  min-width: 35px;
-  min-height: 35px;
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #202020;
+  width: 75%;
+  margin-left: 10%;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
   background-color: lightgray;
   font-family: monospace;
   align-content: center;
   justify-content: center;
   text-align: center;
   font-size: 2em;
+}
+.cell:hover {
+  background: #505050;
+}
+
+#board {
+  display: inline-table;
+  width: auto;
+  height: auto;
+  border: 7px solid dimgray;
+  margin: 1em;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  margin: 2em;
+  width: 50%;
+}
+
+#score, #timer {
+  display: flex;
+  color: whitesmoke;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 50px;
+  font-family: "JetBrains Mono ExtraBold", monospace;
+  font-size: 2em;
+}
+
+#reset {
+  display: flex;
+  width: 300px;
+  height: 50px;
+  justify-content: center;
+  align-items: center;
+  border: dimgray 5px solid;
+  border-radius: 26px;
+  font-family: monospace;
+  font-size: 1.5em;
+}
+#reset:hover {
+  background: darkgray;
+}
+
+.cell[data-nb-of-mines="1"] {
+  color: darkmagenta;
+}
+
+.cell[data-nb-of-mines="2"] {
+  color: blue;
+}
+
+.cell[data-nb-of-mines="3"] {
+  color: darkcyan;
+}
+
+.cell[data-nb-of-mines="4"] {
+  color: darkgreen;
+}
+
+.cell[data-nb-of-mines="5"] {
+  color: yellowgreen;
+}
+
+.cell[data-nb-of-mines="6"] {
+  color: yellow;
+}
+
+.cell[data-nb-of-mines="7"] {
+  color: orange;
+}
+
+.cell[data-nb-of-mines="8"] {
+  color: red;
 }
 
 /*# sourceMappingURL=index.css.map */
