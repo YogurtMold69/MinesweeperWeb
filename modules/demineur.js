@@ -14,16 +14,20 @@ export function createBoard(rowLength, columnLength) {
         const ligne = document.createElement("tr");
         for (let j = 0; j < columnLength; j++) {
 
-            // Attribution de la classe
-            const td = document.createElement("td");
-            td.className = "cell";
+            // Chaque cellule a les attributs suivants :
+            // classe "cell" pour iterer avec querySelector()
+            // coordonnee x,
+            // coordonnee y,
+            // nombre de mines adjacentes a la case,
+            // un boolean pour savoir si la case est revelee ou cachee
 
-            // On donne a chaque cellule des attributs pour leurs
-            // coordonnees X et Y
-            // et le nombre de mines ajacentes
+            const td = document.createElement("td");
+
+            td.className = "cell";
             td.dataset.y = i.toString();
             td.dataset.x = j.toString();
             td.dataset.nbOfMines = "0";
+            td.dataset.isHidden = "true";
 
             ligne.appendChild(td);
         }
@@ -49,28 +53,32 @@ export function initPartie(difficulty) {
     // Efface les mines precedentes
     for (let cell of cells) {
         cell.classList.remove("mine");
+        cell.textContent = "";
         cell.dataset.nbOfMines = "0";
         cell.style.backgroundColor = "lightgray";
     }
 
-    // Pour determiner si une cellule est une mine,
-    // On genere un nombre de 0 a 1 et on le compare a la difficulte predefinie.
+
+    // On genere un float de 0 a 1 et on le compare a la difficulte predefinie,
+    // Pour determiner si une cellule est une mine ou non
     for (let cell of cells) {
         if (Math.random() <= difficulty) {
+
+            //on donne une classe supplementaire aux cellules "mines"
+            // pour iterer avec querySelector()
             cell.classList.add("mine");
         }
     }
 
-    // Met a jour les cellules adjacentes aux mines
+    // Une fois que les mines sont placees; on
+    // met a jour les cellules adjacentes
     const mines = document.querySelectorAll(".mine");
     for (const mine of mines) {
         const neighbors = getAdjacentCells(mine);
 
-        // On incremente l'attribut nbOfMines de chaque cellule adjacente
-        // qui n'est pas elle-meme une mine
+        // On incremente de 1
+        // l'attribut nbOfMines de chaque cellule adjacente
         for (const neighbor of neighbors) {
-            console.log(neighbor); //Debugging
-
             if(neighbor !== undefined) {
                 let nbOfMines = parseInt(neighbor.dataset.nbOfMines);
                 nbOfMines += 1;
@@ -81,14 +89,24 @@ export function initPartie(difficulty) {
 }
 
 export function updateBoard(cell) {
-    if (cell.dataset.nbOfMines !== "0") {
-        return;
-    }
+    if(cell.dataset.isHidden === "true") {
+        cell.dataset.isHidden = "false";
+        cell.textContent = cell.dataset.nbOfMines;
 
-    cell.html(cell.dataset.nbOfMines.toString());
-    const adjacentCells = getAdjacentCells(cell);
-    for (const adjCell of adjacentCells) {
-        updateBoard(adjCell);
+        console.log("blejhh")
+        if (cell.dataset.nbOfMines !== "0") {
+            console.log("heelo!")
+            return;
+        }
+
+        const adjacentCells = getAdjacentCells(cell);
+
+        for (const adjCell of adjacentCells) {
+
+            if(adjCell !== undefined){
+                updateBoard(adjCell);
+            }
+        }
     }
 }
 

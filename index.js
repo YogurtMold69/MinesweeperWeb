@@ -25,7 +25,6 @@ $(document).ready(function() {
             if(this.className.match(".mine")) {
                 debugOnlyShowCells();
             } else {
-                cell.html(this.dataset.nbOfMines);
                 updateBoard(this);
             }
         });
