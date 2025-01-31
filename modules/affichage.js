@@ -1,3 +1,10 @@
+/**
+ * Affiche la grille du jeu dans le DOM en créant et stylisant chaque cellule.
+ *
+ * @param {Array<Array<Object>>} tableauGrille - La matrice générée par la logique de jeu
+ * qui contient les informations nécessaires pour générer chaque cellule en HTML.
+ * @param {number} DIMENSION_GRILLE - La taille (en px) de la grille affichée.
+ */
 export function afficherGrille(tableauGrille, DIMENSION_GRILLE) {
     const grilleJeu = $('#grille-jeu');
 
@@ -9,35 +16,34 @@ export function afficherGrille(tableauGrille, DIMENSION_GRILLE) {
         height: DIMENSION_GRILLE + "px",
     })
 
-    // On traverse la grille qu'on a genere
+    // On traverse la matrice pour généner le HTML
     tableauGrille.forEach(function(ligne) {
         ligne.forEach(function(cellule) {
 
-            // On cree un div equivalent pour chaque cellule
+            // Chaque cellule est représentée par un div
             const celluleHTML = $('<div>');
 
-            // On lui donne une classe pour l'écouteur d'evenement
+            // On lui donne une classe pour gérer les évènements
             celluleHTML.addClass("cell");
 
-            // On verifie egalement si la cellule contient une mine,
-            // si oui, on ajoute la classe 'mine'
+            // On vérifie si la cellule contient une mine
+            // Pour les évènements qui ne concernent que celles-ci
             if(cellule.hasMine) {
                 celluleHTML.addClass("mine");
             }
 
 
-            // On transfere les attributs de la classe Cellule au div html
+            // On stocke les données dans le div
             celluleHTML.data('x', cellule.xCoord)
             celluleHTML.data('y', cellule.yCoord)
             celluleHTML.data('num-of-adjacent-mines', cellule.numOfAdjacentMines)
             celluleHTML.data('has-mine', cellule.hasMine)
 
-            // On donne un attribut supplementaire pour savoir si la mine a ete releve par l'utilisateur
-            // Necessaire pour l'ecouteur d'evenement
+            // Pour savoir si l'utilisateur a révélé la cellule
             celluleHTML.data('is-hidden', true);
 
 
-            // On lui donne un style en css
+            // On stylise la cellule en CSS
             celluleHTML.css({
                     width: DIMENSION_GRILLE/tableauGrille.length + "px",
                     height: DIMENSION_GRILLE/tableauGrille.length + "px",
@@ -56,6 +62,7 @@ export function afficherGrille(tableauGrille, DIMENSION_GRILLE) {
 
             console.log(celluleHTML)
 
+            // Ajoute le div à son parent
             grilleJeu.append(celluleHTML);
         });
     });
@@ -63,24 +70,30 @@ export function afficherGrille(tableauGrille, DIMENSION_GRILLE) {
     console.log(grilleJeu)
 }
 
-/*
-    Cette methode est appelee lorsqu'on clique sur une cellule.
-    Elle s'occupe de reveler la case choisie ainsi que toutes les cellules '0' adjacentes.
-
-    @params cell : Reference vers la cellule cliquee.
+/**
+ * On appelle cette fonction initialement lorsque l'utilisateur clique sur une cellule qui ne contient pas de mine
+ * pour en révéler sa valeur.
+ *
+ * Si la cellule contient un 0, on rappelle récursivement cette fonction sur ses cellules adjacentes
+ * jusqu'à que toutes les cellules sans danger possibles ont été révélées.
+ *
+ * @param cell - Une référence vers la cellule (div)
  */
 export function mettreAJourGrille(cell) {
 
-    // On ne veut pas iterer sur les cellules déjà revelées ;
-    // On travaille seulement les cellules encore cachées
+    // On veut itérer seulement sur les cellules pas encore révélées
     if($(cell).data('is-hidden') === true) {
 
-        // On révèle la cellule
+        // On met à jour la cellule
         $(cell).data('is-hidden', false);
-        $(cell).text($(cell).data('num-of-adjacent-mines'));
+
+        // Change le fond en blanc
         $(cell).css("background", "white")
 
-        // Changer la couleur du texte selon le nombre de mines
+        // Affiche le chiffre sur l'écran
+        $(cell).text($(cell).data('num-of-adjacent-mines'));
+
+        // Selon le nombre de mines, on donne une couleur spécifique au chiffre
         switch ($(cell).data('num-of-adjacent-mines')) {
             case 0: {
                 $(cell).css('color', "lightgray")
@@ -120,7 +133,7 @@ export function mettreAJourGrille(cell) {
             }
         }
 
-        // Condition de base de la recursion
+        // On sort de la récursion si la cellule ne contient pas '0'
         if ($(cell).data('num-of-adjacent-mines') !== 0) {
             console.log("exited on base condition")
             return;
@@ -130,8 +143,7 @@ export function mettreAJourGrille(cell) {
 
         for (const adjCell of adjacentCells) {
 
-            // La fonction va recurser sur toutes ses cellules adjacentes
-            // tant que son nombre de mines adjacentes est 0.
+            // Appel recursif sur chaque cellule adjacente, ainsi de suite...
             mettreAJourGrille(adjCell);
         }
     }
