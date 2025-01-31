@@ -5,17 +5,19 @@
     <title>Minesweeper</title>
     <link rel="stylesheet" href="styles/index.css">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script type="module" src="index.js"></script>
-    <script type="module" src="modules/demineur.js"></script>
+    <script type="module" src="script.js"></script>
+
+    <script type="module" src="modules/logiqueDeJeu.js"></script>
+    <script type="module" src="modules/utils/debugger.js"></script>
 </head>
 <body>
     <header>
-        <button id="reset">Reset</button>
-        <div id="timer">00:00</div>
-        <div id="score">Score: 0</div>
+        <button id="facile">Facile</button>
+        <button id="moyen">Moyen</button>
+        <button id="difficile">Difficile</button>
     </header>
     <main>
-        <table id="board"></table>
+        <div id="grille-jeu"></div>
     </main>
 </body>
 </html>

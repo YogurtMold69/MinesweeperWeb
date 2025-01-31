@@ -1,3 +1,13 @@
+//--------- Variables ----------//
+$boardWidth: 500;
+$boardHeight: 500;
+
+$easyColumnLength: 5;
+$mediumColumnLength: 10;
+$hardColumnLength: 20;
+
+
+//--------- Page ----------//
 body {
   display: flex;
 
@@ -12,34 +22,17 @@ body {
   margin-left: 10%;
 }
 
-.cell {
-  width: 60px;
-  height: 60px;
+//---------- Grille de jeu ---------//
 
-  background-color: lightgray;
-  font-family: monospace;
+#grille-jeu {
+  display: flex;
+  flex-wrap: wrap;
 
-  align-content: center;
-  justify-content: center;
-  text-align: center;
-
-  font-size: 2em;
-
-  &:hover {
-    background: #505050;
-  }
+  border: 2px solid black;
 }
 
-#board {
-  display: inline-table;
 
-  width: auto;
-  height: auto;
-
-  border: 7px solid dimgray;
-
-  margin: 1em;
-}
+//---------- Menu ----------//
 
 header {
   display: flex;
@@ -47,27 +40,12 @@ header {
 
   margin: 2em;
 
+  gap: 1rem;
+
   width: 50%;
-
 }
 
-#score, #timer {
-  display: flex;
-
-  color:whitesmoke;
-
-  justify-content: center;
-  align-items: center;
-
-  width: 500px;
-  height: 50px;
-
-  font-family: "JetBrains Mono ExtraBold", monospace;
-
-  font-size:  2em
-}
-
-#reset {
+button {
   display: flex;
 
   width: 300px;
@@ -83,32 +61,11 @@ header {
   font-family: monospace;
   font-size: 1.5em;
 
+  box-shadow: 3px 3px 20px black;
+
   &:hover {
     background: darkgray;
+    box-shadow: 0 0 0 black;
+    transform: translateX(1%) translateY(1%);
   }
-}
-
-.cell[data-nb-of-mines="1"] {
-  color: darkmagenta;
-}
-.cell[data-nb-of-mines="2"] {
-  color: blue;
-}
-.cell[data-nb-of-mines="3"] {
-  color: darkcyan;
-}
-.cell[data-nb-of-mines="4"] {
-  color: darkgreen;
-}
-.cell[data-nb-of-mines="5"] {
-  color: yellowgreen;
-}
-.cell[data-nb-of-mines="6"] {
-  color: yellow;
-}
-.cell[data-nb-of-mines="7"] {
-  color: orange;
-}
-.cell[data-nb-of-mines="8"] {
-  color: red;
 }
