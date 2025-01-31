@@ -1,4 +1,4 @@
-import {ajouterBombes, compterCellulesVisibles, genererGrille} from "./modules/logiqueDeJeu.js";
+import {ajouterBombes, compterCellulesVisibles, genererGrilleVide} from "./modules/logiqueDeJeu.js";
 import {afficherGrille, mettreAJourGrille, revelerMines} from "./modules/affichage.js";
 
 
@@ -44,7 +44,7 @@ function initialiserDemineur(DIMENSION_GRILLE, difficulte, nbLigne) {
     console.log("Generating initial grid...");
 
 
-    const grille = genererGrille(nbLigne,nbLigne);
+    const grille = genererGrilleVide(nbLigne,nbLigne);
 
 
     console.log("Initial grid generated.");
