@@ -1,0 +1,12 @@
+// Menu de boutons
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin: 2em;
+
+  gap: 1rem;
+
+  width: 40%;
+}

@@ -1,30 +1,15 @@
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #202020;
-  width: 75%;
-  margin-left: 10%;
-}
-
-#grille-jeu {
-  display: flex;
-  flex-wrap: wrap;
-  border: 2px solid black;
-}
-
 header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   margin: 2em;
   gap: 1rem;
-  width: 50%;
+  width: 40%;
 }
 
 button {
   display: flex;
-  width: 300px;
+  width: 150px;
   height: 50px;
   justify-content: center;
   align-items: center;
@@ -38,6 +23,22 @@ button:hover {
   background: darkgray;
   box-shadow: 0 0 0 black;
   transform: translateX(1%) translateY(1%);
+}
+
+#grille-jeu {
+  display: flex;
+  flex-wrap: wrap;
+  border: 2px solid black;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #202020;
+  width: 75%;
+  margin-left: 10%;
 }
 
 /*# sourceMappingURL=index.css.map */

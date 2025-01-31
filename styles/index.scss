@@ -1,13 +1,8 @@
-//--------- Variables ----------//
-$boardWidth: 500;
-$boardHeight: 500;
+@use "header";
+@use "button";
+@use "grille-jeu";
 
-$easyColumnLength: 5;
-$mediumColumnLength: 10;
-$hardColumnLength: 20;
-
-
-//--------- Page ----------//
+// Page en general
 body {
   display: flex;
 
@@ -22,50 +17,5 @@ body {
   margin-left: 10%;
 }
 
-//---------- Grille de jeu ---------//
-
-#grille-jeu {
-  display: flex;
-  flex-wrap: wrap;
-
-  border: 2px solid black;
-}
 
 
-//---------- Menu ----------//
-
-header {
-  display: flex;
-  flex-direction: row;
-
-  margin: 2em;
-
-  gap: 1rem;
-
-  width: 50%;
-}
-
-button {
-  display: flex;
-
-  width: 300px;
-  height: 50px;
-
-  justify-content: center;
-  align-items: center;
-
-  border: dimgray 5px solid;
-
-  border-radius: 26px;
-
-  font-family: monospace;
-  font-size: 1.5em;
-
-  box-shadow: 3px 3px 20px black;
-
-  &:hover {
-    background: darkgray;
-    box-shadow: 0 0 0 black;
-    transform: translateX(1%) translateY(1%);
-  }
-}

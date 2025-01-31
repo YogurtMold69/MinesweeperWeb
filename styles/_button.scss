@@ -1,0 +1,24 @@
+button {
+  display: flex;
+
+  width: 150px;
+  height: 50px;
+
+  justify-content: center;
+  align-items: center;
+
+  border: dimgray 5px solid;
+
+  border-radius: 26px;
+
+  font-family: monospace;
+  font-size: 1.5em;
+
+  box-shadow: 3px 3px 20px black;
+
+  &:hover {
+    background: darkgray;
+    box-shadow: 0 0 0 black;
+    transform: translateX(1%) translateY(1%);
+  }
+}
