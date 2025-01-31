@@ -56,8 +56,6 @@ export function genererGrille(nbLignes, nbColonnes) {
 }
 
 
-
-
 /*
 @returns La cellule de la grille si elle existe ou null si les coordonnées sont out-of-bounds.
  */
@@ -110,70 +108,16 @@ export function ajouterBombes(grille, difficulte) {
     }
 }
 
-
-
 /*
-    Cette methode est appelee lorsqu'on clique sur une cellule.
-    Elle s'occupe de reveler la case choisie ainsi que toutes les cellules '0' adjacentes.
-
-    @params cell : Reference vers la cellule cliquee.
+@returns le nombre de cellules revelees sur la grille.
  */
-export function mettreAJourCellules(cell) {
+export function compterCellulesVisibles() {
 
-    console.log('iterating updateBoard()...')
-
-    // On ne veut pas iterer sur les cellules déjà revelées ;
-    // On travaille seulement les cellules encore cachées
-    if($(cell).data('is-hidden') === true) {
-
-        // On "révèle" la cellule
-        $(cell).data('is-hidden', false);
-
-        // On revele la cellule
-        $(cell).text($(cell).data('num-of-adjacent-mines'));
-
-        // Condition de base de la recursion
-        if ($(cell).data('num-of-adjacent-mines') !== 0) {
-            console.log("exited on base condition")
-            return;
-        }
-
-        console.log($(cell).data('x'), $(cell).data('y'))
-        const adjacentCells = getAdjacentDivs($(cell).data('x'), $(cell).data('y'));
-
-        console.log(adjacentCells)
-
-        for (const adjCell of adjacentCells) {
-            // La fonction va recurser sur toutes ses cellules adjacentes
-            // tant que son nombre de mines adjacentes est 0.
-            console.log('RECURSIOOONNNNNN ENGAGEDDD')
-
-            mettreAJourCellules(adjCell);
-        }
-    }
-}
-
-
-/*
-@params x : Coordonnee x d'un div de la grille
-@params y : Coordonnee y d'un div de la grille
-@returns Un array contenant tous les divs adjacents
- */
-function getAdjacentDivs(x, y) {
-
-
-    return $('.cell').filter(function () {
-
-            // Selecteurs générés par Chat-GPT o4
-        return  $(this).data('x') === x - 1 && $(this).data('y') === y - 1 ||
-                $(this).data('x') === x && $(this).data('y') === y - 1 ||
-                $(this).data('x') === x + 1 && $(this).data('y') === y - 1 ||
-
-                $(this).data('x') === x - 1 && $(this).data('y') === y ||
-                $(this).data('x') === x + 1 && $(this).data('y') === y ||
-
-                $(this).data('x') === x - 1 && $(this).data('y') === y + 1 ||
-                $(this).data('x') === x && $(this).data('y') === y + 1 ||
-                $(this).data('x') === x + 1 && $(this).data('y') === y + 1;
-    }).toArray().filter(element => element !== undefined);
+    // On fait une selection jQuery de 'cell', puis on filtre pour garder seulement ceux qui
+    // ont l'attribut is-hidden == false
+    //
+    // On prend et retourne la longueur de cette selection.
+    return $('.cell').filter(function() {
+            return $(this).data('is-hidden') === false;
+        }).length;
 }
